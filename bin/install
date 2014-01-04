@@ -1,5 +1,7 @@
 #!/bin/bash -eu
 
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
 set +e
 rm -rf tmp/marconi
 mkdir tmp
@@ -16,3 +18,6 @@ pip install .
 
 popd
 rm -rf tmp/marconi
+
+client_result "Marconi ${version} instance added."
+client_result "Connection URL: http://$OPENSHIFT_MARCONI_HOST:$OPENSHIFT_MARCONI_PORT/"
