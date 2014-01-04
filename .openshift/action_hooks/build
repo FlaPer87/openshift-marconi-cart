@@ -1,18 +1,24 @@
 #!/bin/sh
 
+version=${MARCONI_BRANCH:-master}
+environment="../../venv/"
+
 set +e
 rm -rf tmp/redis
+rm -rf $environment
 mkdir tmp
 set -e
 
-version=${MARCONI_BRANCH:-master}
+
+virtualenv $environment
+source $environment/bin/activate
 
 pushd tmp
 
 git clone https://git.openstack.org/openstack/marconi -b $version
 
 cd marconi
-$OPENSHIFT_DATA_DIR/bin/pip install .
+pip install .
 
 popd
 rm -rf tmp/redis
