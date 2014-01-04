@@ -1,0 +1,26 @@
+Name: marconi
+Cartridge-Short-Name: MARCONI
+Display-Name: Marconi
+Version: "0.1"
+Website: https://github.com/flaper87/openshift-marconi-cart
+Cartridge-Version: 0.0.1
+Cartridge-Vendor: flaper87
+Categories:
+  - service
+  - queuing
+  - messaging
+Provides:
+  - marconi-0.1
+  - marconi
+Scaling:
+  Min: 1
+  Max: -1
+Endpoints:
+  - Private-IP-Name:   HOST
+    Private-Port-Name: PORT
+    Private-Port:      8888
+    Public-Port-Name:  PROXY_PORT
+Subscribes:
+  set-nosql-db-connection-info:
+    Type: "NET_TCP:nosqldb:connection-info"
+    Required: false

@@ -1,0 +1,107 @@
+# By default, this should line in one of:
+# ~/.marconi/marconi.conf
+# /etc/marconi/marconi.conf
+
+[DEFAULT]
+# Show more verbose log output (sets INFO log level output)
+;verbose = False
+
+# Show debugging output in logs (sets DEBUG log level output)
+;debug = False
+
+# Log to this file
+log_file = <%= ENV['OPENSHIFT_MARCONI_DIR'] %>/logs/queues.log
+
+;auth_strategy =
+
+# Set to True to enable sharding across multiple storage backends
+;sharding = False
+
+# Set to True to activate endpoints to manage the shard registry
+;admin_mode = False
+
+# ================= Syslog Options ============================
+
+# Send logs to syslog (/dev/log) instead of to file specified
+# by `log_file`
+;use_syslog = False
+
+# Facility to use. If unset defaults to LOG_USER.
+;syslog_log_facility = LOG_LOCAL0
+
+# ================= Driver Options ============================
+
+[drivers]
+# Transport driver module (e.g., wsgi, zmq)
+transport = wsgi
+
+# Storage driver module (e.g., mongodb, sqlite)
+storage = mongodb
+
+# TODO(kgriffs): Add example stages
+[storage]
+# Pipeline for operations on queue resources
+;queue_pipeline =
+# Pipeline for operations on message resources
+;message_pipeline =
+# Pipeline for operations on claim resources
+;claim_pipeline =
+
+[drivers:transport:wsgi]
+bind = <%= ENV['OPENSHIFT_MARCONI_HOST'] %>
+port = <%= ENV['OPENSHIFT_MARCONI_PORT'] %>
+
+# Maximum Content-Length allowed for metadata updating and
+# message posting.
+;metadata_max_length = 65536
+;content_max_length = 262144
+
+[drivers:storage:mongodb]
+uri = mongodb://<%= ENV['OPENSHIFT_MONGODB_HOST'] %>:<%= ENV['OPENSHIFT_MONGODB_PORT'] %>
+database = <%= ENV['OPENSHIFT_APP_NAME'] %>
+
+# Number of databases across which to partition message data,
+# in order to reduce writer lock %. DO NOT change this setting
+# after initial deployment. It MUST remain static. Also,
+# you should not need a large number of partitions to improve
+# performance, esp. if deploying MongoDB on SSD storage.
+;partitions = 2
+
+# Maximum number of times to retry a failed operation. Currently
+# only used for retrying a message post.
+;max_attempts = 1000
+
+# Maximum sleep interval between retries (actual sleep time
+# increases linearly according to number of attempts performed).
+;max_retry_sleep = 0.1
+
+# Maximum jitter interval, to be added to the sleep interval, in
+# order to decrease probability that parallel requests will retry
+# at the same instant.
+;max_retry_jitter = 0.005
+
+[limits:transport]
+# The maximum number of queue records per page when listing queues
+;queue_paging_uplimit = 20
+
+# The maximum number of messages in a message posting, maximum
+# number of messages per page when listing or claiming messages,
+# and maximum number of messages involved in a bulk operation.
+;message_paging_uplimit = 20
+
+# Expiration limits; the minimal values are all 60 (seconds)
+;message_ttl_max = 1209600
+;claim_ttl_max = 43200
+;claim_grace_max = 43200
+
+# Maximum compact-JSON (without whitespace) size in bytes allowed
+# for each metadata body and each message body
+;metadata_size_uplimit = 65536
+;message_size_uplimit = 262144
+
+[limits:storage]
+# The default number of queue records per page when listing queues
+;default_queue_paging = 10
+
+# The default number of messages per page when listing or claiming messages
+;default_message_paging = 10
