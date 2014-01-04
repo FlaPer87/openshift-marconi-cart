@@ -1,1 +1,18 @@
+#!/bin/bash -eu
+
+set +e
+rm -rf tmp/marconi
+mkdir tmp
+set -e
+
+version=${MARCONI_BRANCH:-master}
+
+pushd tmp
+
+git clone https://git.openstack.org/openstack/marconi -b $version
+
+cd marconi
+pip install .
+
+popd
 rm -rf tmp/marconi
