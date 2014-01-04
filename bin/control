@@ -34,14 +34,13 @@ function update() {
 }
 
 function start() {
-    erb conf/marconi.conf.erb > tmp/marconi.conf
-    cp conf/logging.conf > tmp/
-    marconi-server --config-file tmp/marconi.conf
+    erb conf/marconi.conf.erb > conf/marconi.conf
+    cp conf/logging.conf > conf/
+    marconi-server --config-file conf/marconi.conf
 }
 
 function stop() {
-    killall marconi-server
-    return 1
+    killall marconi-server 2> /dev/null
 }
 
 function restart() {

@@ -4,6 +4,4 @@ set -u
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-for dir in logs env; do
-	mkdir -p $dir
-done
+mkdir -p $OPENSHIFT_MARCONI_DIR/{logs,env,conf,tmp}
