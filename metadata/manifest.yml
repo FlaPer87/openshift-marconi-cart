@@ -13,7 +13,7 @@ Provides:
   - marconi-0.1
   - marconi
 Requires:
-  - python-2.7
+  - python
   - mongodb
 Scaling:
   Min: 1
