@@ -12,7 +12,7 @@ pushd tmp
 git clone https://git.openstack.org/openstack/marconi -b $version
 
 cd marconi
-python setup.py install
+$OPENSHIFT_DATA_DIR/bin/pip install .
 
 popd
 rm -rf tmp/redis

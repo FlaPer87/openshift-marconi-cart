@@ -12,6 +12,9 @@ Categories:
 Provides:
   - marconi-0.1
   - marconi
+Requires:
+  - python-2.7
+  - mongodb
 Scaling:
   Min: 1
   Max: -1
