@@ -1,17 +1,14 @@
 #!/bin/sh
 
-version=${MARCONI_BRANCH:-master}
-environment="../../venv/"
-
 set +e
 rm -rf tmp/redis
-rm -rf $environment
+rm -rf venv
 mkdir tmp
 set -e
 
-
-virtualenv $environment
-source $environment/bin/activate
+version=${MARCONI_BRANCH:-master}
+virtualenv venv
+source venv/bin/activate
 
 pushd tmp
 
@@ -21,4 +18,4 @@ cd marconi
 pip install .
 
 popd
-rm -rf tmp/redis
+rm -rf tmp/marconi
