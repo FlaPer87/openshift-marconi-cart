@@ -1,12 +1,11 @@
 #!/bin/bash
 
 function _get_pid() {
-    return `pgrep -o -x marconi-server`
+    echo `ps aux | grep marconi-server | grep -v grep | awk '{print $2}'`
 }
 
 function isrunning() {
-    pid=`_get_pid`
-    if $pid
+    if [ -n "$(_get_pid)" ]
     then
         return 0
     fi
@@ -46,25 +45,22 @@ function use-source() {
     bin/setup
 }
 
-function update() {
-    stop
-    bin/install
+function stop() {
+    if (isrunning); then
+        echo "Stopping Marconi cartridge"
+        kill -9 "$(_get_pid)"
+    fi
 }
+
 function start() {
     if (isrunning); then
         echo "Marconi already running"
         return 0
-   fi 
+   fi
 
     echo "Starting Marconi cartridge"
     erb conf/marconi.conf.erb > conf/marconi.conf
     marconi-server --config-file conf/marconi.conf >/dev/null 2>&1 &
-}
-
-function stop() {
-    set +e
-    /bin/kill kill _get_pid
-    set -e
 }
 
 function restart() {
