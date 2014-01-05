@@ -5,8 +5,8 @@ function _get_pid() {
 }
 
 function isrunning() {
-    pid=_get_pid
-    if $pid 
+    pid=`_get_pid`
+    if $pid
     then
         return 0
     fi
@@ -42,13 +42,13 @@ function use-source() {
     fi
     mkdir -p env
     cp $TMP/_env/* env/
-    
+
     bin/setup
 }
 
 function update() {
     stop
-    ./bin/install
+    bin/install
 }
 function start() {
     if (isrunning); then
