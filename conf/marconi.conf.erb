@@ -57,7 +57,7 @@ port = <%= ENV['OPENSHIFT_MARCONI_PORT'] %>
 ;content_max_length = 262144
 
 [drivers:storage:mongodb]
-uri = mongodb://<%= ENV['OPENSHIFT_MONGODB_HOST'] %>:<%= ENV['OPENSHIFT_MONGODB_PORT'] %>
+uri = mongodb://<%= ENV['OPENSHIFT_MONGODB_DB_USERNAME'] %>:<%= ENV['OPENSHIFT_MONGODB_DB_PASSWORD'] %>@<%= ENV['OPENSHIFT_MONGODB_DB_HOST'] %>:<%= ENV['OPENSHIFT_MONGODB_DB_PORT'] %>
 database = <%= ENV['OPENSHIFT_APP_NAME'] %>
 
 # Number of databases across which to partition message data,
