@@ -16,11 +16,14 @@ Scaling:
   Min: 1
   Max: -1
 Endpoints:
-  - Private-IP-Name:   HOST
-    Private-Port-Name: PORT
+  - Private-IP-Name:   QUEUE_HOST
+    Private-Port-Name: QUEUE_PORT
     Private-Port:      8888
-    Public-Port-Name:  PROXY_PORT
+    Public-Port-Name:  QUEUE_PROXY_PORT
 Subscribes:
   set-nosql-db-connection-info:
     Type: "NET_TCP:nosqldb:connection-info"
-    Required: false
+    Required: true
+Publishes:
+  publish-marconi-connection-info:
+    Type: "NET_TCP:queue:connection-info"
